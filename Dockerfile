@@ -19,6 +19,8 @@ RUN fix-permissions $STACK_ROOT
 RUN apt-get update && apt-get install -yq --no-install-recommends \
         python3-pip \
         git \
+	wget \
+	texlive-xetex texlive-fonts-recommended texlive-generic-recommended pandoc cm-super \
         libtinfo-dev \
         libzmq3-dev \
         libcairo2-dev \
@@ -48,8 +50,7 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
         gnupg \
         netbase && \
 # Clean up apt
-    rm -rf /var/lib/apt/lists/*
-
+	apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
 # Stack Linux (generic) Manual download
 # https://docs.haskellstack.org/en/stable/install_and_upgrade/#linux-generic
 #
@@ -78,7 +79,7 @@ RUN fix-permissions /etc/stack
 RUN mkdir -p $STACK_ROOT/global-project
 COPY stack.stack.yaml $STACK_ROOT/global-project/stack.yaml
 RUN    chown --recursive $NB_UID:users $STACK_ROOT/global-project \
-    && fix-permissions $STACK_ROOT/global-project
+    && fix-permissions $STACK_ROOT/global-project 
 
 # fix-permissions for /usr/local/share/jupyter so that we can install
 # the IHaskell kernel there. Seems like the best place to install it, see
@@ -108,7 +109,7 @@ ARG HVEGA_COMMIT=master
 # hvega repos are forced to pull and rebuild when built on DockerHub.
 # This is inelegant, but is there a better way? (IHASKELL_COMMIT=hash
 # doesn't work.)
-RUN echo "built on 2020-04-26"
+RUN echo "built on 2020-05-16"
 
 # Clone IHaskell and install ghc from the IHaskell resolver
 RUN    cd /opt \
@@ -116,6 +117,39 @@ RUN    cd /opt \
     && git clone --depth 1 --branch $HVEGA_COMMIT https://github.com/DougBurke/hvega.git \
 # Copy the Stack global project resolver from the IHaskell resolver.
     && grep 'resolver:' /opt/IHaskell/stack.yaml >> $STACK_ROOT/global-project/stack.yaml \
+    && echo "extra-deps:" >> $STACK_ROOT/global-project/stack.yaml \
+    && echo "- magic-1.1" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- Chart-cairo-1.9.3" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- cairo-0.13.8.0" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- gtk2hs-buildtools-0.13.8.0" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- diagrams-cairo-1.4.1.1" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- pango-0.13.8.0" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- glib-0.13.8.0" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- plot-0.2.3.10" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- lukko-0.1.1.2" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- static-canvas-0.2.0.3" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- hackage-security-0.6.0.1" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- xformat-0.1.2.1" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- HList-0.5.0.0" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- discrimination-0.4" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- /opt/IHaskell" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- /opt/IHaskell/ipython-kernel" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- /opt/IHaskell/ghc-parser" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- /opt/IHaskell/ihaskell-display/ihaskell-aeson" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- /opt/IHaskell/ihaskell-display/ihaskell-blaze" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- /opt/IHaskell/ihaskell-display/ihaskell-charts" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- /opt/IHaskell/ihaskell-display/ihaskell-diagrams" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- /opt/IHaskell/ihaskell-display/ihaskell-gnuplot" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- /opt/IHaskell/ihaskell-display/ihaskell-graphviz" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- /opt/IHaskell/ihaskell-display/ihaskell-hatex" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- /opt/IHaskell/ihaskell-display/ihaskell-juicypixels" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- /opt/IHaskell/ihaskell-display/ihaskell-magic" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- /opt/IHaskell/ihaskell-display/ihaskell-plot" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- /opt/IHaskell/ihaskell-display/ihaskell-rlangqq" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- /opt/IHaskell/ihaskell-display/ihaskell-static-canvas" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- /opt/IHaskell/ihaskell-display/ihaskell-widgets" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "- /opt/hvega/hvega" >>  $STACK_ROOT/global-project/stack.yaml \
+    && echo "allow-newer: false" >>  $STACK_ROOT/global-project/stack.yaml \
     && fix-permissions /opt/IHaskell \
     && fix-permissions $STACK_ROOT \
     && fix-permissions /opt/hvega \
@@ -140,15 +174,15 @@ RUN    stack build $STACK_ARGS ihaskell-aeson \
     && stack build $STACK_ARGS ihaskell-graphviz \
     && stack build $STACK_ARGS ihaskell-hatex \
     && stack build $STACK_ARGS ihaskell-juicypixels \
-#   && stack build $STACK_ARGS ihaskell-magic \
-#   && stack build $STACK_ARGS ihaskell-plot \
-#   && stack build $STACK_ARGS ihaskell-rlangqq \
-#   && stack build $STACK_ARGS ihaskell-static-canvas \
+    && stack build $STACK_ARGS ihaskell-magic \
+    && stack build $STACK_ARGS ihaskell-plot \
+    && stack build $STACK_ARGS ihaskell-hvega \
+    && stack build $STACK_ARGS hvega \
+    #&& stack build $STACK_ARGS ihaskell-rlangqq \
+    && stack build $STACK_ARGS ihaskell-static-canvas \
 # Skip install of ihaskell-widgets, they don't work.
 # See https://github.com/gibiansky/IHaskell/issues/870
-#   && stack build $STACK_ARGS ihaskell-widgets \
-    && stack build $STACK_ARGS hvega \
-    && stack build $STACK_ARGS ihaskell-hvega \
+    && stack build $STACK_ARGS ihaskell-widgets \
     && fix-permissions $STACK_ROOT
 
 # Cleanup
@@ -173,6 +207,12 @@ ENV PATH ${PATH}:/opt/ghc/bin
 # Switch back to jovyan user
 USER $NB_UID
 
+RUN pip install --upgrade pip \
+    && pip install -U bash_kernel matlab_kernel redis_kernel sshkernel zsh_jupyter_kernel jupyterlab_geojson cookiecutter qgrid \
+    && python3 -m bash_kernel.install \
+    && conda update -y -n base conda \
+    && conda install -y -c r r-irkernel 
+
 RUN \
 # Install the IHaskell kernel at /usr/local/share/jupyter/kernels, which is
 # in `jupyter --paths` data:
@@ -183,6 +223,7 @@ RUN \
     && npm install \
     && npm run build \
     && jupyter labextension install . \
+    && jupyter labextension install jupyterlab-spreadsheet repa jupyterlab-drawio @ijmbarr/jupyterlab_spellchecker @jupyter-widgets/jupyterlab-manager qgrid2 \
 # Cleanup
     && npm cache clean --force \
     && rm -rf /home/$NB_USER/.cache/yarn \
@@ -210,4 +251,3 @@ RUN    mkdir -p $EXAMPLES_PATH \
     && cp /opt/hvega/notebooks/*.ipynb ihaskell-hvega/ \
     && cp /opt/hvega/notebooks/*.tsv ihaskell-hvega/ \
     && fix-permissions $EXAMPLES_PATH
-
