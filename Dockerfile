@@ -18,7 +18,7 @@ RUN mkdir -p $STACK_ROOT
 RUN fix-permissions $STACK_ROOT
 
 # Install Haskell Stack and its dependencies , texlive-fonts-recommended
-RUN apt-get update && apt-get install -yq --no-install-recommends \
+RUN apt-get update && apt-get install -yq --no-install-recommends make \
         python3-pip \
         git \
 	wget \
@@ -45,14 +45,12 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
         libc6-dev \
         libffi-dev \
         libgmp-dev \
-        make \
         xz-utils \
         zlib1g-dev \
         git \
         gnupg \
-        netbase && \
-# Clean up apt
-	apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
+        netbase 
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
 # Stack Linux (generic) Manual download
 # https://docs.haskellstack.org/en/stable/install_and_upgrade/#linux-generic
 #
