@@ -17,12 +17,12 @@ ENV STACK_ROOT=/opt/stack
 RUN mkdir -p $STACK_ROOT
 RUN fix-permissions $STACK_ROOT
 
-# Install Haskell Stack and its dependencies
+# Install Haskell Stack and its dependencies , texlive-fonts-recommended
 RUN apt-get update && apt-get install -yq --no-install-recommends \
         python3-pip \
         git \
 	wget \
-	texlive-xetex texlive-fonts-recommended texlive-generic-recommended pandoc cm-super \
+	texlive-xetex texlive-generic-recommended pandoc cm-super \
         libtinfo-dev \
         libzmq3-dev \
         libcairo2-dev \
