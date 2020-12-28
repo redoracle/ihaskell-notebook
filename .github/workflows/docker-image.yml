@@ -1,0 +1,21 @@
+name: Docker IHaskell
+
+on:
+  workflow_dispatch:
+  push:
+    branches:                                                                                       
+        - "master"                                                                                  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: docker login
+      run: |
+        docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+    - name: Compiling new node software
+      run: |      
+        docker build . --compress --tag redoracle/ihaskell-notebook
+    - name: docker push stage 1
+      run: |
+        docker push redoracle/ihaskell-notebook
