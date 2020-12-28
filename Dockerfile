@@ -1,9 +1,11 @@
-ARG BASE_CONTAINER=jupyter/base-notebook@sha256:caf663fd9344275af065c740cfc4fe686119b7640313251c7777dae53c104031
+ARG BASE_CONTAINER=jupyter/base-notebook@sha256:9ef1b336d2adefd5e27b2bdb98c08efa7358d3fe8090014e9515833acdda4537
+
 FROM $BASE_CONTAINER
+# https://hub.docker.com/layers/jupyter/base-notebook/lab-2.2.9/images/sha256-9ef1b336d2adefd5e27b2bdb98c08efa7358d3fe8090014e9515833acdda4537?context=explore
 # https://hub.docker.com/layers/jupyter/base-notebook/lab-2.0.1/images/sha256-caf663fd9344275af065c740cfc4fe686119b7640313251c7777dae53c104031?context=explore
 # https://hub.docker.com/r/jupyter/base-notebook/tags
 
-LABEL maintainer="James Brock <jamesbrock@gmail.com>"
+#LABEL maintainer="James Brock <jamesbrock@gmail.com>"
 
 # Extra arguments to `stack build`. Used to build --fast, see Makefile.
 ARG STACK_ARGS=
