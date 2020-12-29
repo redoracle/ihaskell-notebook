@@ -20,9 +20,6 @@ RUN fix-permissions $STACK_ROOT
 RUN apt-get update && apt-get install -yq --no-install-recommends \
         python3-pip \
         git \
-        snapd \
-        ruby \
-        ruby-dev \
         libtinfo-dev \
         libzmq3-dev \
         libcairo2-dev \
@@ -56,8 +53,12 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
         less && \
      echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list && \
      curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | sudo apt-key add && \
-     apt-get update && apt-get install -yq sbt && \
+     apt-get update && apt-get install -yq sbt \
+     snapd \
+     ruby \
+     ruby-dev && \
      gem install cztop rbczmq ffi-rzmq iruby && iruby register — force && \
+     wget https://github.com/redoracle/ihaskell-notebook/raw/master/WolframScript_12.1.1_LINUX64_amd64.deb && dpkg -i WolframScript_12.1.1_LINUX64_amd64.deb && \
 # Clean up apt
     rm -rf /var/lib/apt/lists/*
 
@@ -249,8 +250,6 @@ RUN pip install --upgrade pip \
     && stack install cassava \
     && conda install -y -c r r-irkernel \
     && conda install -y --use-local cadabra2 \
-    && wget https://github.com/redoracle/ihaskell-notebook/raw/master/WolframScript_12.1.1_LINUX64_amd64.deb \
-    && dpkg -i WolframScript_12.1.1_LINUX64_amd64.deb \
     && git clone https://github.com/WolframResearch/WolframLanguageForJupyter.git \
     #&& cd WolframLanguageForJupyter/ && ./configure-jupyter.wls add \
     && cd && git clone https://github.com/Eoksni/ipurescript && cd ipurescript && cd \
