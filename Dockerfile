@@ -52,16 +52,13 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
         libtool-bin \
 # Need less for general maintenance
         less && \
-     echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list && \
-     curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | sudo apt-key add \
-     && apt-get update && apt-get install -yq sbt \
-     snapd \
-     ruby \
-     ruby-dev && \
-     gem install cztop rbczmq ffi-rzmq iruby && iruby register — force && \
      wget https://github.com/redoracle/ihaskell-notebook/raw/master/WolframScript_12.1.1_LINUX64_amd64.deb && dpkg -i WolframScript_12.1.1_LINUX64_amd64.deb && \
+     echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list \
+     && curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | sudo apt-key add \
+     && apt-get update && apt-get install -yq sbt snapd ruby ruby-dev && export LIBTOOL=libtoolize  \
+     && gem install cztop rbczmq ffi-rzmq iruby && iruby register — force \
 # Clean up apt
-    rm -rf /var/lib/apt/lists/*
+     && rm -rf /var/lib/apt/lists/*
 
 # Stack Linux (generic) Manual download
 # https://docs.haskellstack.org/en/stable/install_and_upgrade/#linux-generic
@@ -258,4 +255,5 @@ RUN pip install --upgrade pip \
     && jupyter kernelspec install ipurescript \
     && jupyter labextension install jupyterlab-spreadsheet repa jupyterlab-drawio @ijmbarr/jupyterlab_spellchecker @jupyter-widgets/jupyterlab-manager qgrid2 \
     && npm install -g ijavascript && ijsinstall \
+    && npm install jupyter-react-js \
     && jupyter kernelspec list
