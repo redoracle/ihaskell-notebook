@@ -55,7 +55,7 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
      wget https://github.com/redoracle/ihaskell-notebook/raw/master/WolframScript_12.1.1_LINUX64_amd64.deb && dpkg -i WolframScript_12.1.1_LINUX64_amd64.deb \
      #echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list \
      #&& curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | sudo apt-key add \
-     && apt-get update && apt-get install -yq autoconf automake default-jre ruby ruby-dev && export LIBTOOL=libtoolize  \
+     && apt-get update && apt-get install -yq autoconf automake ansible ssh default-jre ruby ruby-dev && export LIBTOOL=libtoolize  \
 # Clean up apt
      && apt-get autoclean --yes  \
      && apt-get clean --yes \
