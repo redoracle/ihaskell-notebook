@@ -4,7 +4,7 @@ FROM $BASE_CONTAINER
 # https://hub.docker.com/layers/jupyter/base-notebook/lab-2.2.9/images/sha256-387af3915c6b49c99f4823fcdb1ae2d0e7618cdd37e17b4af8c47c62f4c0880b?context=explore
 # https://hub.docker.com/r/jupyter/base-notebook/tags
 
-LABEL maintainer="James Brock <jamesbrock@gmail.com>"
+LABEL maintainer="RedOracle <redoracle@gmail.com>"
 
 # Extra arguments to `stack build`. Used to build --fast, see Makefile.
 ARG STACK_ARGS=
