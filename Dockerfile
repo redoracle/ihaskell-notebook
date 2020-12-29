@@ -251,7 +251,7 @@ RUN pip install --upgrade pip \
     && git clone https://github.com/WolframResearch/WolframLanguageForJupyter.git \
     #&& cd WolframLanguageForJupyter/ && ./configure-jupyter.wls add \
     && cd && git clone https://github.com/Eoksni/ipurescript && cd ipurescript && cd \
-    && git clone https://github.com/cascala/igalileo.git \
+    && git clone https://github.com/cascala/igalileo.git && cd igalileo && sbt package && mkdir ~/.local/share/jupyter/kernels/igalileo && cp igalileo/run_sbt.sh ~/.local/share/jupyter/kernels/igalileo/ && cd \
     && jupyter kernelspec install ipurescript \
     && jupyter labextension install jupyterlab-spreadsheet repa jupyterlab-drawio @ijmbarr/jupyterlab_spellchecker @jupyter-widgets/jupyterlab-manager qgrid2 \
     && npm install -g ijavascript && ijsinstall \
