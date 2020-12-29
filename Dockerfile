@@ -60,9 +60,9 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
      && apt-get autoclean --yes  \
      && apt-get clean --yes \
      && rm -rf /var/lib/apt/lists/*
-     
-#     RUN gem install cztop rbczmq ffi-rzmq iruby \
-#     && iruby register — force 
+       
+   RUN gem install cztop rbczmq ffi-rzmq iruby \
+     && iruby register — force 
      # RUN snap install powershell --classic 
 # Stack Linux (generic) Manual download
 # https://docs.haskellstack.org/en/stable/install_and_upgrade/#linux-generic
