@@ -52,13 +52,16 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
         libtool-bin \
 # Need less for general maintenance
         less && \
-     wget https://github.com/redoracle/ihaskell-notebook/raw/master/WolframScript_12.1.1_LINUX64_amd64.deb && dpkg -i WolframScript_12.1.1_LINUX64_amd64.deb && \
-     echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list \
-     && curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | sudo apt-key add \
-     && apt-get update && apt-get install -yq autoconf automake default-jre sbt snapd ruby ruby-dev && export LIBTOOL=libtoolize  \
-     && gem install cztop rbczmq ffi-rzmq iruby && iruby register — force \
+     wget https://github.com/redoracle/ihaskell-notebook/raw/master/WolframScript_12.1.1_LINUX64_amd64.deb && dpkg -i WolframScript_12.1.1_LINUX64_amd64.deb \
+     #echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list \
+     #&& curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | sudo apt-key add \
+     && apt-get update && apt-get install -yq autoconf automake default-jre snapd ruby ruby-dev && export LIBTOOL=libtoolize  \
 # Clean up apt
      && rm -rf /var/lib/apt/lists/*
+     
+     RUN gem install cztop rbczmq ffi-rzmq iruby \
+     && iruby register — force \
+     && snap install powershell --classic 
 
 # Stack Linux (generic) Manual download
 # https://docs.haskellstack.org/en/stable/install_and_upgrade/#linux-generic
@@ -238,7 +241,6 @@ RUN pip install --upgrade pip \
     && python3 -m zsh_jupyter_kernel.install 2>/dev/null \
     && pip install -U  bash_kernel \
     && python3 -m bash_kernel.install 2>/dev/null \
-    && snap install powershell --classic \
     && pip install powershell_kernel \
     && python -m powershell_kernel.install \
     && pip install ansible-kernel \
