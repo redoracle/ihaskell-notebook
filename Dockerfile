@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
         python3-pip \
         git \
         sbt \
+        snapd \
         libtinfo-dev \
         libzmq3-dev \
         libcairo2-dev \
@@ -235,8 +236,9 @@ RUN pip install --upgrade pip \
     && python3 -m zsh_jupyter_kernel.install 2>/dev/null \
     && pip install -U  bash_kernel
     && python3 -m bash_kernel.install 2>/dev/null \
-    && pip install powershell_kernel
-    && python -m powershell_kernel.install
+    && snap install powershell --classic \
+    && pip install powershell_kernel \
+    && python -m powershell_kernel.install \
     && stack install cassava \
     && conda install -y -c r r-irkernel \
     && conda install -y --use-local cadabra2 \
@@ -244,5 +246,7 @@ RUN pip install --upgrade pip \
     && dpkg -i WolframScript_12.1.1_LINUX64_amd64.deb \
     && git clone https://github.com/WolframResearch/WolframLanguageForJupyter.git \
     && cd WolframLanguageForJupyter/ && ./configure-jupyter.wls add \
+    && cd && git clone https://github.com/Eoksni/ipurescript && cd ipurescript \
+    && jupyter kernelspec install ipurescript \
     && jupyter labextension install jupyterlab-spreadsheet repa jupyterlab-drawio @ijmbarr/jupyterlab_spellchecker @jupyter-widgets/jupyterlab-manager qgrid2 \
     && jupyter kernelspec list
