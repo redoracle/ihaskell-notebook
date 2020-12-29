@@ -21,6 +21,8 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
         python3-pip \
         git \
         snapd \
+        ruby \
+        ruby-dev \
         libtinfo-dev \
         libzmq3-dev \
         libcairo2-dev \
@@ -54,6 +56,7 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
      echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list && \
      curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | sudo apt-key add && \
      apt-get update && apt-get install -yq --no-install-recommends sbt && \
+     gem install cztop rbczmq ffi-rzmq iruby && iruby register — force && \
 # Clean up apt
     rm -rf /var/lib/apt/lists/*
 
@@ -231,13 +234,17 @@ RUN    mkdir -p $EXAMPLES_PATH \
     && fix-permissions $EXAMPLES_PATH
 
 RUN pip install --upgrade pip \
-    && pip install -U IVisual matlab_kernel redis_kernel sshkernel zsh_jupyter_kernel jupyter_kernel_singular jupyterlab_geojson cookiecutter qgrid \
+    && pip install -U IVisual matlab_kernel redis_kernel zsh_jupyter_kernel jupyter_kernel_singular jupyterlab_geojson cookiecutter qgrid \
     && python3 -m zsh_jupyter_kernel.install 2>/dev/null \
     && pip install -U  bash_kernel \
     && python3 -m bash_kernel.install 2>/dev/null \
     && snap install powershell --classic \
     && pip install powershell_kernel \
     && python -m powershell_kernel.install \
+    && pip install ansible-kernel \
+    && python -m ansible_kernel.install \
+    && pip install -U sshkernel \
+    && python -m sshkernel install \
     && stack install cassava \
     && conda install -y -c r r-irkernel \
     && conda install -y --use-local cadabra2 \
@@ -245,7 +252,8 @@ RUN pip install --upgrade pip \
     && dpkg -i WolframScript_12.1.1_LINUX64_amd64.deb \
     && git clone https://github.com/WolframResearch/WolframLanguageForJupyter.git \
     && cd WolframLanguageForJupyter/ && ./configure-jupyter.wls add \
-    && cd && git clone https://github.com/Eoksni/ipurescript && cd ipurescript \
+    && cd && git clone https://github.com/Eoksni/ipurescript && cd ipurescript && cd \
+    && git clone https://github.com/cascala/igalileo.git \
     && jupyter kernelspec install ipurescript \
     && jupyter labextension install jupyterlab-spreadsheet repa jupyterlab-drawio @ijmbarr/jupyterlab_spellchecker @jupyter-widgets/jupyterlab-manager qgrid2 \
     && jupyter kernelspec list
