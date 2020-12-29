@@ -50,7 +50,8 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
         zlib1g-dev \
         git \
         gnupg \
-        netbase \
+        netbase
+        libtool \
 # Need less for general maintenance
         less && \
      echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list && \
