@@ -252,7 +252,7 @@ RUN pip install --upgrade pip \
     && wget https://github.com/redoracle/ihaskell-notebook/raw/master/WolframScript_12.1.1_LINUX64_amd64.deb \
     && dpkg -i WolframScript_12.1.1_LINUX64_amd64.deb \
     && git clone https://github.com/WolframResearch/WolframLanguageForJupyter.git \
-    && cd WolframLanguageForJupyter/ && ./configure-jupyter.wls add \
+    #&& cd WolframLanguageForJupyter/ && ./configure-jupyter.wls add \
     && cd && git clone https://github.com/Eoksni/ipurescript && cd ipurescript && cd \
     && git clone https://github.com/cascala/igalileo.git \
     && jupyter kernelspec install ipurescript \
