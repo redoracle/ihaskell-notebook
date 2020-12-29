@@ -225,3 +225,10 @@ RUN    mkdir -p $EXAMPLES_PATH \
     && cp /opt/hvega/notebooks/*.ipynb ihaskell-hvega/ \
     && cp /opt/hvega/notebooks/*.tsv ihaskell-hvega/ \
     && fix-permissions $EXAMPLES_PATH
+
+RUN pip install --upgrade pip \
+    && pip install -U bash_kernel matlab_kernel redis_kernel sshkernel zsh_jupyter_kernel jupyter_kernel_singular jupyterlab_geojson cookiecutter qgrid \
+    && python3 -m bash_kernel.install \
+    && stack install cassava \
+    && jupyter labextension install jupyterlab-spreadsheet repa jupyterlab-drawio @ijmbarr/jupyterlab_spellchecker @jupyter-widgets/jupyterlab-manager qgrid2 \
+    && jupyter kernelspec list
