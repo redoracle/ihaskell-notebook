@@ -234,7 +234,7 @@ RUN    mkdir -p $EXAMPLES_PATH \
 RUN pip install --upgrade pip \
     && pip install -U IVisual matlab_kernel redis_kernel sshkernel zsh_jupyter_kernel jupyter_kernel_singular jupyterlab_geojson cookiecutter qgrid \
     && python3 -m zsh_jupyter_kernel.install 2>/dev/null \
-    && pip install -U  bash_kernel
+    && pip install -U  bash_kernel \
     && python3 -m bash_kernel.install 2>/dev/null \
     && snap install powershell --classic \
     && pip install powershell_kernel \
