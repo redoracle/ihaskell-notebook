@@ -59,10 +59,8 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
 # Clean up apt
      && apt-get autoclean --yes  \
      && apt-get clean --yes \
-     && rm -rf /var/lib/apt/lists/*
-       
-   #RUN gem install cztop rbczmq ffi-rzmq iruby \
-     #&& iruby register — force 
+     && rm -rf /var/lib/apt/lists/* \
+     && echo  "Execute: gem install cztop rbczmq ffi-rzmq iruby , then:  iruby register — force " > ~/ruby_readme.txt
 
 # Stack Linux (generic) Manual download
 # https://docs.haskellstack.org/en/stable/install_and_upgrade/#linux-generic
@@ -256,5 +254,15 @@ RUN cd && git clone https://github.com/Eoksni/ipurescript && cd ipurescript && j
     && npm install -g typescript \
     && npm install -g tslab && tslab install --python=python3 \
     && npm install -g ijavascript && ijsinstall \
-    && npm install jupyter-react-js && rm -rf ~/pac*\
+    && npm install -g jupyter-react-js && rm -rf ~/pac*\
+    && npm install -g zmq \
+    && npm install -g --save cvs \
+    && jupyter labextension install cvs \
+    && jupyter labextension install zmq \
     && jupyter kernelspec list
+    
+USER root
+RUN gem install cztop rbczmq ffi-rzmq iruby && iruby register — force
+
+# Switch back to jovyan user
+USER $NB_UID
