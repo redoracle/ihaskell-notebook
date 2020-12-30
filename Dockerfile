@@ -52,8 +52,7 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
         libtool \
         libtool-bin \
 # Need less for general maintenance
-        less && \
-     wget https://github.com/redoracle/ihaskell-notebook/raw/master/WolframScript_12.1.1_LINUX64_amd64.deb && dpkg -i WolframScript_12.1.1_LINUX64_amd64.deb \
+        less \
      && echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list \
      && curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | sudo apt-key add \
      && apt-get update && apt-get install -yq sbt singular autoconf automake ansible ssh default-jre ruby ruby-dev && export LIBTOOL=libtoolize  \
@@ -64,7 +63,7 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
        
    #RUN gem install cztop rbczmq ffi-rzmq iruby \
      #&& iruby register — force 
-     # RUN snap install powershell --classic 
+
 # Stack Linux (generic) Manual download
 # https://docs.haskellstack.org/en/stable/install_and_upgrade/#linux-generic
 #
@@ -239,8 +238,7 @@ RUN    mkdir -p $EXAMPLES_PATH \
     && fix-permissions $EXAMPLES_PATH
 
 RUN pip install --upgrade pip \
-    && pip install -U IVisual redis_kernel zsh_jupyter_kernel jupyter_kernel_singular jupyterlab_geojson cookiecutter qgrid \
-    #&& python3 -m zsh_jupyter_kernel.install 2>/dev/null \
+    && pip install -U IVisual redis_kernel jupyter_kernel_singular jupyterlab_geojson cookiecutter qgrid \
     && pip install -U  bash_kernel \
     && python3 -m bash_kernel.install \
     && pip install ansible-kernel \
@@ -249,15 +247,14 @@ RUN pip install --upgrade pip \
     && python -m sshkernel install \
     && stack install cassava \
     && conda install -y -c r r-irkernel \
-    && conda install -y --use-local cadabra2 \
-    && git clone https://github.com/WolframResearch/WolframLanguageForJupyter.git 
-    #&& export WolframKernel=~/WolframLanguageForJupyter/WolframLanguageForJupyter/Kernel/ && cd WolframLanguageForJupyter/ && ./configure-jupyter.wls add \
-RUN cd && git clone https://github.com/Eoksni/ipurescript && cd ipurescript && jupyter kernelspec install ipurescript && cd \
-    && git clone https://github.com/cascala/igalileo.git && cd igalileo && sbt package && mkdir ~/.local/share/jupyter/kernels/igalileo && cp igalileo/run_sbt.sh ~/.local/share/jupyter/kernels/igalileo/ && cd \
+    && conda install -y --use-local cadabra2 
+    
+RUN cd && git clone https://github.com/Eoksni/ipurescript && cd ipurescript && jupyter kernelspec install ipurescript && cd && rm -rf ipurescript \
+    && git clone https://github.com/cascala/igalileo.git && cd igalileo && sbt package && mkdir ~/.local/share/jupyter/kernels/igalileo && cp igalileo/run_sbt.sh ~/.local/share/jupyter/kernels/igalileo/ && cd && rm -rf igalileo \
     && jupyter labextension install jupyterlab-spreadsheet repa jupyterlab-drawio @ijmbarr/jupyterlab_spellchecker @jupyter-widgets/jupyterlab-manager qgrid2 \
     && npm install -g purescript \
     && npm install -g typescript \
     && npm install -g tslab && tslab install --python=python3 \
     && npm install -g ijavascript && ijsinstall \
-    && npm install jupyter-react-js \
+    && npm install jupyter-react-js && rm -rf ~/pac*\
     && jupyter kernelspec list
