@@ -255,6 +255,7 @@ RUN cd && git clone https://github.com/Eoksni/ipurescript && cd ipurescript && j
     && npm install -g tslab && tslab install --python=python3 \
     && npm install -g ijavascript && ijsinstall \
     && npm install -g jupyter-react-js && rm -rf ~/pac*\
+    && npm audit fix && npm audit fix --force \
     && npm install -g zmq \
     && npm install -g --save cvs \
     && jupyter labextension install cvs \
