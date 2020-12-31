@@ -252,10 +252,11 @@ RUN cd && git clone https://github.com/Eoksni/ipurescript && cd ipurescript && j
     && jupyter labextension install jupyterlab-spreadsheet repa jupyterlab-drawio @ijmbarr/jupyterlab_spellchecker @jupyter-widgets/jupyterlab-manager qgrid2 \
     && npm install -g purescript \
     && npm install -g typescript \
+    && npm audit fix && npm audit fix --force \
     && npm install -g tslab && tslab install --python=python3 \
     && npm install -g ijavascript && ijsinstall \
-    && npm install -g jupyter-react-js && rm -rf ~/pac*\
     && npm audit fix && npm audit fix --force \
+    && npm install -g jupyter-react-js && rm -rf ~/pac*\
     && npm install -g zmq \
     && npm install -g --save cvs \
     && jupyter labextension install cvs \
